@@ -12,18 +12,18 @@ def syutudai():
     taisyo_list = random.sample(all_al_list, taisyo_al)
     kesson_list = random.sample(taisyo_list, kesson_al)
     hyouji_list = list(set(taisyo_list) - set(kesson_list))
-    print(f"対象文字:\n{hyouji(taisyo_list)}\n欠損文字:\n{hyouji(kesson_list)}\n表示文字:\n{hyouji(hyouji_list)}")
+    print(f"対象文字:\n{hyouji(taisyo_list)}\n表示文字:\n{hyouji(hyouji_list)}")
     print(f"欠損文字はいくつあるでしょうか？:")
     return kesson_list
 ###欠損文字を作る関数（対象文字から受け取ってランダムで決定）
-def kaito(kesson, ans):
+
+def kaito(kesson):
     for i in range(max_num):
+        ans = input()
         if ans in kesson:
             if kesson:
-                print(kesson)
                 kesson.remove(ans)
-            else:
-                ans = input()
+                
             if not kesson:
                 print("正解です")
                 break
@@ -34,7 +34,7 @@ def kaito(kesson, ans):
 def kessonsuu(ans):
     for i in range(max_num):
         if ans == kesson_al:
-            print("正解です。次に消えた文字を答えてください")
+            print("正解です。次に消えた文字を入力してください")
             break
         else:
             print("不正解です。もう一度やり直してください")
@@ -50,8 +50,10 @@ def hyouji(al_list):
     return(hyouji_al)
 
 def main():
+    st = datetime.datetime.now()
     kesson = syutudai()
     kessonsuu(int(input()))
-    kaito(kesson, input())
-
+    kaito(kesson)
+    ed = datetime.datetime.now()
+    print((ed-st).seconds)
 main()
