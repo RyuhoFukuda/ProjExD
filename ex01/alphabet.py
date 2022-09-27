@@ -31,7 +31,7 @@ def kaito(kesson):
             print("不正解です。もう一度やり直してください")
             
 
-def kessonsuu(ans):
+def dis_al(ans):
     for i in range(max_num):
         if ans == kesson_al:
             print("正解です。次に消えた文字を入力してください")
@@ -49,11 +49,10 @@ def hyouji(al_list):
         hyouji_al += " "
     return(hyouji_al)
 
-def main():
+if __name__ == "__main__":
     st = datetime.datetime.now()
     kesson = syutudai()
-    kessonsuu(int(input()))
+    dis_al(int(input()))
     kaito(kesson)
     ed = datetime.datetime.now()
     print((ed-st).seconds)
-main()
