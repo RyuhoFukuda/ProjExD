@@ -56,3 +56,4 @@ if __name__ == "__main__":
     kaito(kesson)
     ed = datetime.datetime.now()
     print((ed-st).seconds)
+###コメントに対応しました
