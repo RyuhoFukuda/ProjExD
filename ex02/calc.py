@@ -15,6 +15,13 @@ def eq_button_click(event):
         entry.insert(tk.END, result)
     except SyntaxError:
         entry.delete(0, tk.END)
+    except NameError:
+        get_str = get_num.split("+")
+        str_result = ""
+        for i in get_str:
+            str_result += i
+        entry.delete(0, tk.END)
+        entry.insert(tk.END, str_result)
 
 def delete_button_click(event):
     entry.delete(0, tk.END)
