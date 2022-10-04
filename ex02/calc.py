@@ -5,7 +5,14 @@ def button_click(event):
     btn = event.widget
     txt = btn["text"]
     entry.insert(tk.END, txt)
-    tkm.showinfo(txt, f"[{txt}]のボタンがクリックされました")
+#    tkm.showinfo(txt, f"[{txt}]のボタンがクリックされました")
+
+def eq_button_click(event):
+    get_num = entry.get()
+    result = eval(get_num)
+    entry.delete(0, tk.END)
+    entry.insert(tk.END, result)
+
 
 root = tk.Tk()
 root.title("電卓")
@@ -34,7 +41,7 @@ for i in range(9, -3, -1):
             r += 1
     elif i == -2:
         button = tk.Button(root, text="=", width=4, height=2, font=("Times New Roman", 30))
-        button.bind("<1>", button_click)
+        button.bind("<1>", eq_button_click)
         button.grid(row=r, column=c)
     
 
