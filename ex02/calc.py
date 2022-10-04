@@ -4,6 +4,7 @@ import tkinter.messagebox as tkm
 def button_click(event):
     btn = event.widget
     txt = btn["text"]
+    entry.insert(0, txt)
     tkm.showinfo(txt, f"[{txt}]のボタンがクリックされました")
 
 root = tk.Tk()
