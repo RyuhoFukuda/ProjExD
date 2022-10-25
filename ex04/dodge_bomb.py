@@ -28,7 +28,7 @@ def main():
     bomb_rct2 = bomb_sfc.get_rect()
     bomb_rct2.center = (bombx, 0)
     #爆弾　速度
-    vx = vy  = 1
+    vx = vy  = 2
     vy2 = 2
     #文字
     txt = "GAME OVER"
@@ -42,7 +42,6 @@ def main():
         scrm_sfc.blit(bg_sfc, bg_rct)
         scrm_sfc.blit(tori_sfc, tori_rct)
         scrm_sfc.blit(bomb_sfc, bomb_rct)
-        scrm_sfc.blit(bomb_sfc, bomb_rct2)
         for event in pg.event.get():
             if event.type == pg.QUIT: return
         #こうかとんkeyイベント
@@ -55,6 +54,7 @@ def main():
             tori_rct.move_ip(-1, 0)
         if key_lst[pg.K_RIGHT]:
             tori_rct.move_ip(1, 0)
+        
         #こうかとん壁判定
         if tori_rct.left < 0:
             tori_rct.left = 0
@@ -69,13 +69,17 @@ def main():
         #爆弾壁判定
         if bomb_rct.left < 0:
             vx *= -1
+            vx *= 1.05
         if bomb_rct.right > w:
             vx *= -1
+            vx *= 1.05
         if bomb_rct.top < 0:
             vy *= -1
+            vy *= 1.05
         if bomb_rct.bottom > h:
             vy *= -1
-
+            vy *= 1.05
+        scrm_sfc.blit(bomb_sfc, bomb_rct2)
         bomb_rct2.move_ip(0, vy2)
         #爆弾壁判定
         if bomb_rct2.bottom > h:
@@ -100,10 +104,9 @@ def main():
             pg.time.wait(30)
             for event in pg.event.get():
                 if event.type == pg.QUIT: return
-
+    
 
 if __name__ == "__main__":
-    pg.init
     main()
     pg.quit()
     sys.exit()
