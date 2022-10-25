@@ -35,8 +35,9 @@ def main():
     fonts = []
     for size in range(8, 300):
         fonts.append(pg.font.Font(None, size))
-
+        
     while(1):
+        collapse = 0
         #反映
         bombx2 = randint(1, w)
         scrm_sfc.blit(bg_sfc, bg_rct)
@@ -54,6 +55,8 @@ def main():
             tori_rct.move_ip(-1, 0)
         if key_lst[pg.K_RIGHT]:
             tori_rct.move_ip(1, 0)
+        if key_lst[pg.K_q]:
+            collapse = 1
         
         #こうかとん壁判定
         if tori_rct.left < 0:
@@ -85,10 +88,13 @@ def main():
         if bomb_rct2.bottom > h:
             bomb_rct2.center = (bombx2, 0)
         #衝突判定
-        if tori_rct.colliderect(bomb_rct): 
-            break
-        if tori_rct.colliderect(bomb_rct2):
-            break
+        if collapse == 0:
+            if tori_rct.colliderect(bomb_rct): 
+                break
+            if tori_rct.colliderect(bomb_rct2):
+                break
+        elif collapse == 1:
+            pass
         pg.display.update()
         clock = pg.time.Clock()
         clock.tick(1000)
