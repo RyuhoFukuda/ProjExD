@@ -18,8 +18,6 @@ def main():
     tori_sfc = pg.transform.rotozoom(tori_sfc, 0, 2.0)
     tori_rct = tori_sfc.get_rect()
     tori_rct.center = 700, 250
-    tori_rct2 = tori_sfc.get_rect()
-    tori_rct2.center = 350, 125
     #爆弾　描画
     bombx, bomby = randint(1, w), randint(1, h)
     bomb_sfc = pg.Surface((20, 20))
@@ -27,8 +25,11 @@ def main():
     bomb_sfc.set_colorkey("BLACK")
     bomb_rct = bomb_sfc.get_rect()
     bomb_rct.center = (bombx, bomby)
+    bomb_rct2 = bomb_sfc.get_rect()
+    bomb_rct2.center = (bombx, 0)
     #爆弾　速度
-    vx = vy = 1
+    vx = vy  = 1
+    vy2 = 2
     #文字
     txt = "GAME OVER"
     fonts = []
@@ -37,10 +38,11 @@ def main():
 
     while(1):
         #反映
+        bombx2 = randint(1, w)
         scrm_sfc.blit(bg_sfc, bg_rct)
         scrm_sfc.blit(tori_sfc, tori_rct)
-        scrm_sfc.blit(tori_sfc, tori_rct2)
         scrm_sfc.blit(bomb_sfc, bomb_rct)
+        scrm_sfc.blit(bomb_sfc, bomb_rct2)
         for event in pg.event.get():
             if event.type == pg.QUIT: return
         #こうかとんkeyイベント
@@ -73,13 +75,20 @@ def main():
             vy *= -1
         if bomb_rct.bottom > h:
             vy *= -1
+
+        bomb_rct2.move_ip(0, vy2)
+        #爆弾壁判定
+        if bomb_rct2.bottom > h:
+            bomb_rct2.center = (bombx2, 0)
         #衝突判定
         if tori_rct.colliderect(bomb_rct): 
+            break
+        if tori_rct.colliderect(bomb_rct2):
             break
         pg.display.update()
         clock = pg.time.Clock()
         clock.tick(1000)
- 
+
     ### 無限ループ
     while(1):
         for font in fonts:
