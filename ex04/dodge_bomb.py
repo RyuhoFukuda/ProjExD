@@ -35,9 +35,10 @@ def main():
     fonts = []
     for size in range(8, 300):
         fonts.append(pg.font.Font(None, size))
-        
+
     while(1):
         collapse = 0
+
         #反映
         bombx2 = randint(1, w)
         scrm_sfc.blit(bg_sfc, bg_rct)
@@ -45,6 +46,7 @@ def main():
         scrm_sfc.blit(bomb_sfc, bomb_rct)
         for event in pg.event.get():
             if event.type == pg.QUIT: return
+
         #こうかとんkeyイベント
         key_lst = pg.key.get_pressed()
         if key_lst[pg.K_UP]:
@@ -67,8 +69,10 @@ def main():
             tori_rct.top = 0
         if tori_rct.bottom > h:
             tori_rct.bottom = h
+        
         #爆弾動き
         bomb_rct.move_ip(vx, vy)
+        bomb_rct2.move_ip(0, vy2)
         #爆弾壁判定
         if bomb_rct.left < 0:
             vx *= -1
@@ -83,23 +87,21 @@ def main():
             vy *= -1
             vy *= 1.05
         scrm_sfc.blit(bomb_sfc, bomb_rct2)
-        bomb_rct2.move_ip(0, vy2)
-        #爆弾壁判定
         if bomb_rct2.bottom > h:
             bomb_rct2.center = (bombx2, 0)
         #衝突判定
-        if collapse == 0:
+        if collapse == 0: #collapse変数が0のとき判定をONにする
             if tori_rct.colliderect(bomb_rct): 
                 break
             if tori_rct.colliderect(bomb_rct2):
                 break
-        elif collapse == 1:
+        elif collapse == 1: #collapse変数が1のとき判定をOFFにする
             pass
         pg.display.update()
         clock = pg.time.Clock()
         clock.tick(1000)
 
-    ### 無限ループ
+    #GAMEOVER画面
     while(1):
         for font in fonts:
             text = font.render(txt, True, (255,0,0))
