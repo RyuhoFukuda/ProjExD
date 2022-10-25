@@ -49,8 +49,7 @@ def main():
         scrm_sfc.blit(tori_sfc, tori_rct2)
         scrm_sfc.blit(bomb_sfc, bomb_rct)
         for event in pg.event.get():
-            if event.type == pg.QUIT: 
-                return
+            if event.type == pg.QUIT: return
 
         #こうかとんkeyイベント
         key_lst = pg.key.get_pressed()
