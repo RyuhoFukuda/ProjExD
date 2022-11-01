@@ -3,7 +3,7 @@ import sys
 from random import randint
 
 
-def check_bound(obj_rct, scr_rct):
+def check_bound(obj_rct, scr_rct): #壁判定
     """
     obj_rct：こうかとんrct，または，爆弾rct
     scr_rct：スクリーンrct
