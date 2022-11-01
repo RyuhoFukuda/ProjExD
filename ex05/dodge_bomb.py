@@ -83,6 +83,27 @@ class Bomb:
         self.blit(scr)
 
 
+# class Bombfall:
+
+#     def __init__(self, color, rad, var, scr :Screen):
+#         self.sfc = pg.Surface((20, 20))
+#         self.sfc.set_colorkey((0, 0, 0))
+#         pg.draw.circle(self.sfc, color, rad, 10)
+#         self.rct = self.sfc.get_rect()
+#         self.rct.centerx = randint(0, scr.rct.width)
+#         self.rct.centery = 0
+#         self.vy = +var
+    
+#     def blit(self, scr :Screen):
+#         return scr.sfc.blit(self.sfc, scr.rct)
+
+#     def update(self, scr :Screen):
+#         if self.rct.top > scr.wh[1]:
+#             self.rct.bottom = 0
+#         self.rct.move_ip(0, self.vy)
+#         self.blit(scr)
+
+
 class Sword:
 
     def __init__(self, zdwn, sword_path, bird :Bird):
@@ -111,7 +132,7 @@ class Sword:
         self.blit(scr)
 
 
-class Gameover:
+class Text:
 
     def __init__(self, txt):
         self.txt = txt
@@ -138,8 +159,10 @@ def main():
     scr = Screen("負けるな！こうかとん", (1200, 700), "ex05\pg_bg.jpg")
     bird = Bird("fig/1.png", 2.0, (600, 350))
     bomb = Bomb((0, 0, 255), (10, 10), (2, 2), scr)
-    gmov = Gameover("GameOver")
-    gmcr = Gameover("GameClear")
+    bomb2 = Bomb((255, 0, 0), (10, 10), (2, 2), scr)
+    # bombf = Bombfall((0, 0, 255), (10, 10), 2, scr)
+    gmov = Text("GameOver")
+    gmcr = Text("GameClear")
     sword = Sword(0.8, "fig/2.png", bird)
     gamemode = 0
 
@@ -148,13 +171,16 @@ def main():
         scr.blit()
         bird.update(scr)
         sword.update(scr)
+        # bombf.update(scr)
 
-        if sword.rct.colliderect(bomb.rct):
+        if sword.rct.colliderect(bomb.rct) or sword.rct.colliderect(bomb2.rct):
             allive_flag = 1
         if allive_flag == 0:
             bomb.update(scr)
-            if bird.rct.colliderect(bomb.rct):
+            bomb2.update(scr)
+            if bird.rct.colliderect(bomb.rct) or bird.rct.colliderect(bomb2.rct): # or bird.rct.colliderect(bombf.rct)
                 break
+
         else:
             gamemode = 1
             break        
