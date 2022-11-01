@@ -1,4 +1,3 @@
-from tkinter import CENTER
 import pygame as pg
 import sys
 from random import randint
@@ -17,7 +16,9 @@ def check_bound(obj_rct, scr_rct):
         tate = -1
     return yoko, tate
 
+
 class Screen:
+    
     def __init__(self, title, wh, bg_file):
         pg.display.set_caption(title)
         self.wh = (wh[0], wh[1])
@@ -25,10 +26,13 @@ class Screen:
         self.rct = self.sfc.get_rect()
         self.bgi_sfc = pg.image.load(bg_file)
         self.bgi_rct = self.bgi_sfc.get_rect()
+
     def blit(self):
         return self.sfc.blit(self.bgi_sfc, self.bgi_rct)
 
+
 class Bird:
+    
     key_delta = {
     pg.K_UP:    [0, -2],
     pg.K_DOWN:  [0, +2],
@@ -56,6 +60,7 @@ class Bird:
                     self.rct.centery -= delta[1]
         self.blit(scr)
 
+
 class Bomb:
 
     def __init__(self, color, rad, var, scr :Screen):
@@ -76,8 +81,10 @@ class Bomb:
         self.vy *= tate
         self.rct.move_ip(self.vx, self.vy) 
         self.blit(scr)
-    
+
+
 class Sword:
+
     def __init__(self, zdwn, sword_path, bird :Bird):
         self.sfc = pg.image.load(sword_path)
         self.sfc = pg.transform.rotozoom(self.sfc, 0, zdwn)
@@ -103,7 +110,9 @@ class Sword:
                     self.rct.top = scr.wh[1]
         self.blit(scr)
 
+
 class Gameover:
+
     def __init__(self, txt):
         self.txt = txt
         self.fonts = []
@@ -122,7 +131,9 @@ class Gameover:
                 if event.type == pg.QUIT:
                     return
 
+
 def main():
+
     pg.init() # 初期化
     scr = Screen("負けるな！こうかとん", (1200, 700), "ex05\pg_bg.jpg")
     bird = Bird("fig/1.png", 2.0, (600, 350))
@@ -131,10 +142,10 @@ def main():
     gmcr = Gameover("GameClear")
     sword = Sword(0.8, "fig/2.png", bird)
     gamemode = 0
+
     while (1):
         allive_flag = 0
         scr.blit()
-        
         bird.update(scr)
         sword.update(scr)
 
@@ -146,8 +157,7 @@ def main():
                 break
         else:
             gamemode = 1
-            break
-        
+            break        
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
@@ -165,6 +175,7 @@ def main():
             gmcr.update(scr)
             return
         
+
 if __name__ == "__main__":
     main()
     pg.quit()
