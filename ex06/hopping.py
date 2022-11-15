@@ -10,7 +10,7 @@ def collide(rct1, rct2): # 土台のRect、上に乗る鳥のRect、x速度、y�
         sky = 1
         rct2.bottom = rct1.top
 
-def start(scr): #泉追加分　スタート画面
+def start(scr): #izumi追加分　スタート画面
     fonto = pg.font.Font(None, 60)
     txt = fonto.render("Press  SPACE  to  Start  Game", True, "BLACK")
     scr.sfc.blit(txt, (0,400))
