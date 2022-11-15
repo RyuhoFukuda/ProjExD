@@ -6,26 +6,27 @@ from random import randint
 sky = True #空にいるかどうかを判定するグローバル変数
 
 
-def collide(rct1, rct2, bird): #rct2がバード、rct1が足場
+def collide(rct1, rct2): 
+    #rct2が鳥、rct1が足場
     global sky           
     if rct2.top < rct1.top and rct2.bottom < rct1.bottom and rct2.colliderect(rct1):
 
         rct2.bottom = rct1.top
         sky = False
 
-def draw_score(scr, time):
+def draw_score(scr, time): #スコア画面
     fonto = pg.font.Font(None, 80)
     score = time // 1000
     txt = fonto.render(f"Score:{score}", True, "BLACK")
     scr.sfc.blit(txt, (10, 10))
 
-def start(scr): #izumi追加分　スタート画面
+def start(scr): #スタート画面
     fonto = pg.font.Font(None, 60)
     txt = fonto.render("Press  SPACE  to  Start  Game", True, "BLACK")
     scr.sfc.blit(txt, (0,400))
         
 
-class Screen:
+class Screen: #スクリーンクラス
     
     def __init__(self, title, wh, bg_file):
         pg.display.set_caption(title)
@@ -34,15 +35,13 @@ class Screen:
         self.rct = self.sfc.get_rect()
         self.bgi_sfc = pg.image.load(bg_file)
         self.bgi_rct = self.bgi_sfc.get_rect()
-        self.bgi_sfc2 = pg.image.load(bg_file)
-        self.bgi_rct2 = self.bgi_sfc2.get_rect()
 
     def blit(self):
         self.sfc.blit(self.bgi_sfc, self.bgi_rct)
         return 
 
 
-class Bird:
+class Bird: #こうかとん（操作可能キャラクター）クラス
 
     def __init__(self, bird_path, zup, default):
         self.sfc = pg.image.load(bird_path)
@@ -76,8 +75,8 @@ class Bird:
         #y軸に動かす
         self.rct.centery += self.speed_y
         
-        pg.draw.rect(scr.sfc, (255, 0, 0), (self.rct.right, self.rct.centery, 20, 63))
-        pg.draw.rect(scr.sfc, (255, 255, 255), (self.rct.right, self.rct.centery, 20, 63-self.jump_power*-5))
+        pg.draw.rect(scr.sfc, (255, 0, 0), (self.rct.right, self.rct.centery, 20, 52))
+        pg.draw.rect(scr.sfc, (255, 255, 255), (self.rct.right, self.rct.centery, 20, 52-self.jump_power*-3))
 
     #壁と天井の判定
     def wall_pass(self):
@@ -107,7 +106,7 @@ class Bird:
                 self.jump_power = 0
             
 
-class FootFold:
+class FootFold: #足場クラス
 
     global sky
 
@@ -132,7 +131,8 @@ class FootFold:
         self.blit(scr)       
 
 
-class Text:
+class Text: #テキスト表示クラス（だんだん近づいてくる機能付き）
+            #今回は最終スコアの表示に使用
 
     def __init__(self, txt):
         self.txt = txt
@@ -152,16 +152,16 @@ class Text:
                 if event.type == pg.QUIT:
                     return
 
-def main():
+def main(): #メイン
     scr = Screen("飛べ！こうかとん", (600, 800), "ex06/aozora.jpg")
     bird = Bird("fig/1.png", 2.0, (300, 700))
-    foot = FootFold(100, scr)
-    foot1 = FootFold(300, scr)
-    foot2 = FootFold(500, scr)
-    foot3 = FootFold(700, scr)
-    clock = pg.time.Clock()
-    starttime = True
-    runflag = False
+    foot = FootFold(100, scr) #足場1
+    foot1 = FootFold(300, scr) #足場2
+    foot2 = FootFold(500, scr) #足場3
+    foot3 = FootFold(700, scr) #足場4
+    clock = pg.time.Clock() #時間
+    starttime = True #最初の床が消えるかどうかの判定
+    runflag = False #スタート画面とゲーム画面の判定
     
     while runflag == False: #スタート画面
         scr.blit()
@@ -175,31 +175,31 @@ def main():
                     runflag = True
 
     while runflag: #スタート画面から遷移した時にwhileに入る
-        scr.blit()
-        bird.update(scr)
-        foot.update(scr)
-        foot1.update(scr)
-        foot2.update(scr)
-        foot3.update(scr)
+        scr.blit() #スクリーン貼り付け
+        bird.update(scr) #こうかとんの更新
+        foot.update(scr) #足場1の更新
+        foot1.update(scr) #足場2の更新
+        foot2.update(scr) #足場3の更新
+        foot3.update(scr) #足場4の更新
         
-        if starttime == True:
+        if starttime == True: #最初にのみ存在する足場
             first_box = pg.draw.rect(scr.sfc, (255,255,255), (250,780,100,10))
-            collide(first_box, bird.rct, bird)
+            collide(first_box, bird.rct) #最初にのみ存在する足場とこうかとんの衝突判定
 
-        collide(foot.rct, bird.rct, bird)
-        collide(foot1.rct, bird.rct, bird)
-        collide(foot2.rct, bird.rct, bird)
-        collide(foot3.rct, bird.rct, bird)
+        collide(foot.rct, bird.rct) #足場1とこうかとんの衝突判定
+        collide(foot1.rct, bird.rct) #足場2とこうかとんの衝突判定
+        collide(foot2.rct, bird.rct) #足場3とこうかとんの衝突判定
+        collide(foot3.rct, bird.rct) #足場4とこうかとんの衝突判定
 
-        for event in pg.event.get():
-                if event.type == pg.QUIT:
+        for event in pg.event.get(): #イベント
+                if event.type == pg.QUIT: #×ボタンを押したらゲームを終了する
                     return
-                bird.jump(event)
+                bird.jump(event) #こうかとんのジャンプについてのイベント
 
-        if bird.rct.top > scr.rct.height:
+        if bird.rct.top > scr.rct.height: #こうかとんが画面外に出たらWhileを抜ける
             break
 
-        time = pg.time.get_ticks()
+        time = pg.time.get_ticks() #時間
         draw_score(scr, time)
         pg.display.update() 
         clock.tick(120)
@@ -207,8 +207,8 @@ def main():
             starttime = False
     
     while (1):
-        gmov = Text(f"Score:{str(time // 1000)}")
-        gmov.update(scr)
+        gmov = Text(f"Score:{str(time // 1000)}") #最終スコアの表示
+        gmov.update(scr) #最終スコア表示画面の更新
         return
 
 
