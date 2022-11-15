@@ -36,6 +36,17 @@ class Screen:
         return 
 
 
+def kouka_die(scr:Screen):#ゲームオーバー表示
+    fonto =pg.font.Font(None,60)
+    tmr = "GAME OVER"
+    txt =fonto.render(str(tmr),True,"RED")
+    scr.sfc.blit(txt,(100,100))
+    pg.display.update()
+    pg.time.wait(30)
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            return
+
 class Bird:
 
 
@@ -123,8 +134,13 @@ def draw_score(scr, time):
     scr.sfc.blit(txt, (10, 10))
 
 def main():
+
+    scr = Screen("飛べ！こうかとん", (600, 800), "fig/pg_bg.jpg")
+    bird = Bird("fig/1.png", 2.0, (300, 400))
+    
     scr = Screen("飛べ！こうかとん", (600, 800), "ProjExD-1/fig/background.jpg")
     bird = Bird("ProjExD-1/fig/1.png", 2.0, (300, 100))
+    
     foot = FootFold(100, scr)
     foot1 = FootFold(400, scr)
     foot2 = FootFold(700, scr)
