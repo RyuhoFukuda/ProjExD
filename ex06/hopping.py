@@ -2,7 +2,7 @@ import pygame as pg
 import sys
 from random import randint
 
-sky = True
+sky = True #空にいるかどうかを判定するグローバル変数
 
 def collide(rct1, rct2, bird): #rct2がバード、rct1が足場
     global sky           
