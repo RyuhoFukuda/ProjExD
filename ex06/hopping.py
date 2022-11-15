@@ -144,7 +144,7 @@ class Text: #テキスト表示クラス（だんだん近づいてくる機能�
             pos = font.size(self.txt)
             scr.blit()
             scr.sfc.blit(text, (int((scr.wh[0]-pos[0])/2),int((scr.wh[1]-pos[1])/2)))
-            pg.display.update()
+            pg.display.update() #画面の更新
             pg.time.wait(30)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -197,7 +197,7 @@ def main(): #メイン
         if time >= 5000:
             starttime = False
     #福田
-    while (1):
+    while (1): #ゲームオーバー画面の描画
         gmov = Text(f"Score:{str(time // 1000)}") #最終スコアの表示
         gmov.update(scr) #最終スコア表示画面の更新
         return
