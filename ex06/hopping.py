@@ -1,12 +1,14 @@
 import pygame as pg
-import sys
+import sys                    
 from random import randint
+
 
 sky = True #空にいるかどうかを判定するグローバル変数
 
 def collide(rct1, rct2, bird): #rct2がバード、rct1が足場
     global sky           
     if rct2.top < rct1.top and rct2.bottom < rct1.bottom and rct2.colliderect(rct1):
+
         rct2.bottom = rct1.top
         sky = False
     # if sky == False and rct2.centerx < rct1.left and rct2.colliderect(rct1):
@@ -23,6 +25,7 @@ def draw_score(scr, time):
     txt = fonto.render(f"Score:{score}", True, "BLACK")
     scr.sfc.blit(txt, (10, 10))
 
+
 class Screen:
     
     def __init__(self, title, wh, bg_file):
@@ -32,29 +35,35 @@ class Screen:
         self.rct = self.sfc.get_rect()
         self.bgi_sfc = pg.image.load(bg_file)
         self.bgi_rct = self.bgi_sfc.get_rect()
+        self.bgi_sfc2 = pg.image.load(bg_file)
+        self.bgi_rct2 = self.bgi_sfc2.get_rect()
 
     def blit(self):
-        return self.sfc.blit(self.bgi_sfc, self.bgi_rct)
+        self.sfc.blit(self.bgi_sfc, self.bgi_rct)
+        return 
 
 class Bird:
 
-    global sky
 
     def __init__(self, bird_path, zup, default):
         self.sfc = pg.image.load(bird_path)
         self.sfc = pg.transform.rotozoom(self.sfc, 0, zup)
         self.rct = self.sfc.get_rect()
         self.rct.center = default[0], default[1]
+
         self.speed_y = 0
         self.jump_power = 0
         self.charge = False
+
     
     def blit(self, scr :Screen):
         return scr.sfc.blit(self.sfc, self.rct)
 
     def update(self, scr :Screen):
+
         key_lst = pg.key.get_pressed()
         if sky == True:
+
             if key_lst[pg.K_LEFT]:
                 self.rct.move_ip(-3, 0)
             if key_lst[pg.K_RIGHT]:
@@ -115,12 +124,13 @@ class FootFold:
         return scr.sfc.blit(self.sfc, self.rct)
 
     def update(self, scr :Screen):
+
         self.rct.centery += 1
         if self.rct.bottom > scr.rct.height:
+
             self.rct.centerx = randint(0, scr.rct.width)
             self.rct.bottom = 0
         self.blit(scr)
-
 
 class Text:
 
@@ -153,7 +163,7 @@ def main():
     starttime = True
 
     while (1):
-            
+
         scr.blit()
         bird.update(scr)
         foot.update(scr)
