@@ -157,6 +157,7 @@ class Text:
                     return
 
 
+
 def main():
     scr = Screen("飛べ！こうかとん", (600, 800), "ex06/aozora.jpg")
     bird = Bird("fig/1.png", 2.0, (300, 700))
