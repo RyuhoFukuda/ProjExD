@@ -25,6 +25,17 @@ class Screen:
         return self.sfc.blit(self.bgi_sfc, self.bgi_rct)
 
 
+def kouka_die(scr:Screen):#ゲームオーバー表示
+    fonto =pg.font.Font(None,60)
+    tmr = "GAME OVER"
+    txt =fonto.render(str(tmr),True,"RED")
+    scr.sfc.blit(txt,(100,100))
+    pg.display.update()
+    pg.time.wait(30)
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            return
+
 class Bird:
 
     global sky
@@ -82,7 +93,7 @@ class FootFold:
 
 
 def main():
-    scr = Screen("飛べ！こうかとん", (600, 800), "ex05\pg_bg.jpg")
+    scr = Screen("飛べ！こうかとん", (600, 800), "fig/pg_bg.jpg")
     bird = Bird("fig/1.png", 2.0, (300, 400))
     foot = FootFold(100, scr)
     foot1 = FootFold(300, scr)
