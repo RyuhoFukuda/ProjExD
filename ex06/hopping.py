@@ -5,19 +5,13 @@ from random import randint
 
 sky = True #空にいるかどうかを判定するグローバル変数
 
+
 def collide(rct1, rct2, bird): #rct2がバード、rct1が足場
     global sky           
     if rct2.top < rct1.top and rct2.bottom < rct1.bottom and rct2.colliderect(rct1):
 
         rct2.bottom = rct1.top
         sky = False
-    # if sky == False and rct2.centerx < rct1.left and rct2.colliderect(rct1):
-    #     rct2.centerx = rct1.left
-    # if sky == False and rct2.centerx > rct1.right and rct2.colliderect(rct1):
-    #     rct2.centerx = rct1.right
-    # elif sky == True and rct2.top > rct1.top and rct2.bottom > rct1.bottom and rct2.colliderect(rct1):
-    #     rct2.centery = rct2.bottom+5
-    #     bird.speed_y = 0
 
 def draw_score(scr, time):
     fonto = pg.font.Font(None, 80)
@@ -47,8 +41,8 @@ class Screen:
         self.sfc.blit(self.bgi_sfc, self.bgi_rct)
         return 
 
-class Bird:
 
+class Bird:
 
     def __init__(self, bird_path, zup, default):
         self.sfc = pg.image.load(bird_path)
@@ -60,7 +54,6 @@ class Bird:
         self.jump_power = 0
         self.charge = False
 
-    
     def blit(self, scr :Screen):
         return scr.sfc.blit(self.sfc, self.rct)
 
@@ -115,7 +108,9 @@ class Bird:
             
 
 class FootFold:
+
     global sky
+
     def __init__(self, y, scr :Screen):
         self.sfc = pg.Surface((125, 10))
         self.sfc.set_colorkey((0, 0, 0))
@@ -136,6 +131,7 @@ class FootFold:
             self.rct.bottom = 0
         self.blit(scr)       
 
+
 class Text:
 
     def __init__(self, txt):
@@ -155,8 +151,6 @@ class Text:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     return
-
-
 
 def main():
     scr = Screen("飛べ！こうかとん", (600, 800), "ex06/aozora.jpg")
@@ -180,7 +174,6 @@ def main():
                 if event.key == pg.K_SPACE:
                     runflag = True
 
-
     while runflag: #スタート画面から遷移した時にwhileに入る
         scr.blit()
         bird.update(scr)
@@ -192,6 +185,7 @@ def main():
         if starttime == True:
             first_box = pg.draw.rect(scr.sfc, (255,255,255), (250,780,100,10))
             collide(first_box, bird.rct, bird)
+
         collide(foot.rct, bird.rct, bird)
         collide(foot1.rct, bird.rct, bird)
         collide(foot2.rct, bird.rct, bird)
@@ -211,12 +205,12 @@ def main():
         clock.tick(120)
         if time >= 5000:
             starttime = False
-        
     
     while (1):
         gmov = Text(f"Score:{str(time // 1000)}")
         gmov.update(scr)
         return
+
 
 if __name__ == "__main__":
     pg.init() # 初期化
