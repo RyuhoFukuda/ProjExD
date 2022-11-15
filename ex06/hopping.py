@@ -2,10 +2,10 @@ import pygame as pg
 import sys                    
 from random import randint
 
-
+# 福田
 sky = True #空にいるかどうかを判定するグローバル変数
 
-
+# 福田,岡田
 def collide(rct1, rct2): 
     #rct2が鳥、rct1が足場
     global sky           
@@ -13,19 +13,19 @@ def collide(rct1, rct2):
 
         rct2.bottom = rct1.top
         sky = False
-
+# 岡田
 def draw_score(scr, time): #スコア画面
     fonto = pg.font.Font(None, 80)
     score = time // 1000
     txt = fonto.render(f"Score:{score}", True, "BLACK")
     scr.sfc.blit(txt, (10, 10))
-
+# 泉
 def start(scr): #スタート画面
     fonto = pg.font.Font(None, 60)
     txt = fonto.render("Press  SPACE  to  Start  Game", True, "BLACK")
     scr.sfc.blit(txt, (0,400))
         
-
+# 福田
 class Screen: #スクリーンクラス
     
     def __init__(self, title, wh, bg_file):
@@ -37,12 +37,11 @@ class Screen: #スクリーンクラス
         self.bgi_rct = self.bgi_sfc.get_rect()
 
     def blit(self):
-        self.sfc.blit(self.bgi_sfc, self.bgi_rct)
-        return 
+        return self.sfc.blit(self.bgi_sfc, self.bgi_rct)
 
-
+# 福田,岡田
 class Bird: #こうかとん（操作可能キャラクター）クラス
-
+# 福田,岡田
     def __init__(self, bird_path, zup, default):
         self.sfc = pg.image.load(bird_path)
         self.sfc = pg.transform.rotozoom(self.sfc, 0, zup)
@@ -55,7 +54,7 @@ class Bird: #こうかとん（操作可能キャラクター）クラス
 
     def blit(self, scr :Screen):
         return scr.sfc.blit(self.sfc, self.rct)
-
+# 岡田
     def update(self, scr :Screen):
 
         key_lst = pg.key.get_pressed()
@@ -77,7 +76,7 @@ class Bird: #こうかとん（操作可能キャラクター）クラス
         
         pg.draw.rect(scr.sfc, (255, 0, 0), (self.rct.right, self.rct.centery, 20, 52))
         pg.draw.rect(scr.sfc, (255, 255, 255), (self.rct.right, self.rct.centery, 20, 52-self.jump_power*-3))
-
+# 福田
     #壁と天井の判定
     def wall_pass(self):
         if self.rct.right < 0:
@@ -86,7 +85,7 @@ class Bird: #こうかとん（操作可能キャラクター）クラス
             self.rct.right = 0
         if self.rct.top < 0:
             self.rct.top = 0
-
+# 岡田
     def jump(self, event):
         global sky
         key_lst = pg.key.get_pressed()
@@ -105,7 +104,7 @@ class Bird: #こうかとん（操作可能キャラクター）クラス
                 self.speed_y += self.jump_power
                 self.jump_power = 0
             
-
+# 福田
 class FootFold: #足場クラス
 
     global sky
@@ -129,7 +128,7 @@ class FootFold: #足場クラス
             self.rct.bottom = 0
         self.blit(scr)       
 
-
+# 福田
 class Text: #テキスト表示クラス（だんだん近づいてくる機能付き）
             #今回は最終スコアの表示に使用
 
@@ -151,9 +150,10 @@ class Text: #テキスト表示クラス（だんだん近づいてくる機能�
                 if event.type == pg.QUIT:
                     return
 
+# 福田,岡田,泉
 def main(): #メイン
     scr = Screen("飛べ！こうかとん", (600, 800), "ex06/aozora.jpg")
-    bird = Bird("fig/1.png", 2.0, (300, 700))
+    bird = Bird("fig/3.png", 2.0, (300, 700))
     foot = FootFold(100, scr) #足場1
     foot1 = FootFold(300, scr) #足場2
     foot2 = FootFold(500, scr) #足場3
@@ -161,7 +161,8 @@ def main(): #メイン
     clock = pg.time.Clock() #時間
     starttime = True #最初の床が消えるかどうかの判定
     runflag = False #スタート画面とゲーム画面の判定
-    
+
+    # 泉
     while runflag == False: #スタート画面
         scr.blit()
         start(scr)
@@ -172,8 +173,8 @@ def main(): #メイン
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     runflag = True
-
-    while runflag: #スタート画面から遷移した時にwhileに入る
+    #福田, 岡田
+    while (1): 
         scr.blit() #スクリーン貼り付け
         bird.update(scr) #こうかとんの更新
         foot.update(scr) #足場1の更新
@@ -204,7 +205,7 @@ def main(): #メイン
         clock.tick(120)
         if time >= 5000:
             starttime = False
-    
+    #福田
     while (1):
         gmov = Text(f"Score:{str(time // 1000)}") #最終スコアの表示
         gmov.update(scr) #最終スコア表示画面の更新
