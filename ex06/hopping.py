@@ -25,6 +25,11 @@ def draw_score(scr, time):
     txt = fonto.render(f"Score:{score}", True, "BLACK")
     scr.sfc.blit(txt, (10, 10))
 
+def start(scr): #izumi追加分　スタート画面
+    fonto = pg.font.Font(None, 60)
+    txt = fonto.render("Press  SPACE  to  Start  Game", True, "BLACK")
+    scr.sfc.blit(txt, (0,400))
+        
 
 class Screen:
     
@@ -127,10 +132,9 @@ class FootFold:
 
         self.rct.centery += 1
         if self.rct.bottom > scr.rct.height:
-
             self.rct.centerx = randint(0, scr.rct.width)
             self.rct.bottom = 0
-        self.blit(scr)
+        self.blit(scr)       
 
 class Text:
 
@@ -152,6 +156,7 @@ class Text:
                 if event.type == pg.QUIT:
                     return
 
+
 def main():
     scr = Screen("飛べ！こうかとん", (600, 800), "ex06/aozora.jpg")
     bird = Bird("fig/1.png", 2.0, (300, 700))
@@ -161,9 +166,21 @@ def main():
     foot3 = FootFold(700, scr)
     clock = pg.time.Clock()
     starttime = True
+    runflag = False
+    
+    while runflag == False: #スタート画面
+        scr.blit()
+        start(scr)
+        pg.display.update()
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                return
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE:
+                    runflag = True
 
-    while (1):
 
+    while runflag: #スタート画面から遷移した時にwhileに入る
         scr.blit()
         bird.update(scr)
         foot.update(scr)
