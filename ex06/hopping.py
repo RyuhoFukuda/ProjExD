@@ -115,9 +115,8 @@ class FootFold: #足場クラス
         self.sfc.set_colorkey((0, 0, 0))
         pg.draw.rect(self.sfc,(255, 0, 0),(0, 0, 125, 10))
         self.rct = self.sfc.get_rect()
-        self.y = y
         self.rct.centerx = randint(0, scr.rct.width)
-        self.rct.centery = self.y
+        self.rct.centery = y
 
     def blit(self, scr :Screen):
         return scr.sfc.blit(self.sfc, self.rct)
