@@ -154,10 +154,7 @@ class Text: #テキスト表示クラス（だんだん近づいてくる機能�
 def main(): #メイン
     scr = Screen("飛べ！こうかとん", (600, 800), "ex06/aozora.jpg")
     bird = Bird("fig/3.png", 2.0, (300, 700))
-    foot = FootFold(100, scr) #足場1
-    foot1 = FootFold(300, scr) #足場2
-    foot2 = FootFold(500, scr) #足場3
-    foot3 = FootFold(700, scr) #足場4
+    foots = [FootFold(x*200+100, scr) for x in range(4)]
     clock = pg.time.Clock() #時間
     starttime = True #最初の床が消えるかどうかの判定
     runflag = False #スタート画面とゲーム画面の判定
@@ -177,19 +174,13 @@ def main(): #メイン
     while (1): 
         scr.blit() #スクリーン貼り付け
         bird.update(scr) #こうかとんの更新
-        foot.update(scr) #足場1の更新
-        foot1.update(scr) #足場2の更新
-        foot2.update(scr) #足場3の更新
-        foot3.update(scr) #足場4の更新
-        
+        for i in range(len(foots)):
+            foots[i].update(scr) 
+            collide(foots[i].rct, bird.rct)
+
         if starttime == True: #最初にのみ存在する足場
             first_box = pg.draw.rect(scr.sfc, (255,255,255), (250,780,100,10))
             collide(first_box, bird.rct) #最初にのみ存在する足場とこうかとんの衝突判定
-
-        collide(foot.rct, bird.rct) #足場1とこうかとんの衝突判定
-        collide(foot1.rct, bird.rct) #足場2とこうかとんの衝突判定
-        collide(foot2.rct, bird.rct) #足場3とこうかとんの衝突判定
-        collide(foot3.rct, bird.rct) #足場4とこうかとんの衝突判定
 
         for event in pg.event.get(): #イベント
                 if event.type == pg.QUIT: #×ボタンを押したらゲームを終了する
