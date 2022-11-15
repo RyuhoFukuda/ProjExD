@@ -80,12 +80,6 @@ class FootFold:
         self.blit(scr)
 
 
-    # def jump(self, jump_pat = 0):
-    #     key = pg.key.get_pressed()
-    #     if key[pg.K_SPACE]:
-    #         jump_pat += 1
-
-
 def main():
     scr = Screen("飛べ！こうかとん", (600, 800), "ProjExD-1/ex04/pg_bg.jpg")
     bird = Bird("ProjExD-1/fig/1.png", 2.0, (300, 400))
@@ -94,7 +88,7 @@ def main():
     foot2 = FootFold(500, scr)
     runflag = False
 
-    while runflag == False: #スタート画面　泉
+    while runflag == False: #スタート画面
         scr.blit()
         start(scr)
         pg.display.update()
